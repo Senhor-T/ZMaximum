@@ -1,0 +1,15 @@
+.conteudo-lista{
+    width:90%;
+    padding:0 10px;
+    display: flex;
+    height:100%;
+    flex-wrap: wrap;
+    margin-left: 10%;
+}
+
+#div-poster{
+    width:250px;
+    height: 280px;
+    padding:10px;
+    box-sizing: border-box;
+}

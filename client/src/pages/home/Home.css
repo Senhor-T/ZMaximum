@@ -1,0 +1,128 @@
+body{
+    background-color:#000;
+}
+
+.container-home{
+    width: 77%;
+    margin-left: 15%;
+    background-color: #191918;
+    color: white;
+    border-radius: 10px;
+}
+
+.slick-dots li button:before {
+    color: rgb(236, 126, 39) !important;
+  }
+
+  @font-face {
+    font-family: arrow;
+    src: url(../../../public/fonts/mandalore.ttf);
+}
+
+.slick-prev.slick-arrow:before{
+    color: rgb(236, 126, 39) !important;
+    font-family: arrow;
+    font-size: 36px;
+    content:"<";
+}
+.slick-next.slick-arrow:before{
+    color: rgb(236, 126, 39) !important;
+    font-family: arrow;
+    font-size: 36px;
+    content:">";
+}
+
+.slider{
+    width: 95%;
+    margin-left: 1%;
+}
+
+.div-card{
+    height: 400px;
+}
+
+.card-body{
+    width: 100%;
+    height: 100%;
+    /* background-image: url(https://cinemaemserie.com.br/wp-content/uploads/2022/05/Top-Gun-Maverick-Dolby-Header.jpg); */
+    background-color: #191918;
+    border: none;
+    border-left: none;
+}
+
+.card-body img{
+    width: 100%;
+    height: 370px;
+}
+
+.bg-card{
+    background-color: rgb(12, 13, 13, 0.8);
+    width: 50%;
+    margin-top: 16px;
+    margin-left: 16px;
+    height: 370px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+.mobile-body-card{
+    display: none;
+}
+
+
+.div-poster{
+    background: none;
+    width: 70% !important;
+}
+.div-poster div{
+    color: white !important;
+    width: 100%;
+    
+}
+
+.div-poster div #title{
+    width: 100%;
+}
+
+.div-poster img{
+    width: 100%;
+    height: 220px;
+    border-radius: 10px;
+}
+
+.body-poster-card{
+    background-color: rgb(12, 13, 13, 0.8);
+    width: 70%;
+    display: none;
+    text-align: center;
+}
+
+
+
+.div-poster:hover .body-poster-card{
+    display: block;
+}
+
+@media (max-width:768px){
+    .mobile-body-card{
+        display: block;
+        text-align: center;
+        border: 1px solid green;
+        height: 200px;
+    }
+    .bg-card{
+        display: none;
+    }
+    .card-body img{
+        height: 350px;
+    }
+    .container-home{
+        width: 90%;
+    }
+}
+
+@media (max-width:637px){
+    .container-home{
+        margin-left: 5%;
+    }
+}

@@ -1,0 +1,90 @@
+@font-face {
+    font-family: logo;
+    src: url(../../public/fonts/fontastique.ttf);
+}
+
+
+.container-menu{
+    border: 1px solid yellow;
+    width: 20%;
+    margin-left: -1%;
+}
+
+.top-bar form{
+    margin-left: 25%;
+}
+
+.top-bar input:focus, input:focus, select:focus{
+    box-shadow: 0 1px 3px 1px orange;
+    border: 0 solid;
+    outline: 0;
+}
+
+.top-bar h3{
+    font-family: logo;
+    color: orange;
+}
+
+.top-bar input{
+    border-radius: 1px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.top-bar button{
+    border-radius: 1px;
+    background-color: orange !important;
+    color: black;
+    border: none;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.nav-content{
+    height: 100%;
+    background-color: #000;
+    position: fixed;
+    margin-top: 35px;
+}
+
+.nav-content a{
+    color: white !important;
+    font-weight: bold;
+    font-size: 22px;
+    margin-left: 5px;
+    display: inline-flex;
+}
+
+.nav-content a h6{
+    margin-left: 7px;
+}
+
+.nav-content a:hover{
+    color: orange !important;
+}
+
+.nav-mobile-content{
+    display: none;
+}
+
+.nav-mobile-content a{
+    color: white !important;
+    font-weight: bold;
+    font-size: 25px;
+    margin-left: 5px;
+}
+
+.divCont{
+    height: 900px;
+}
+
+@media (max-width:768px){
+    .nav-content{
+        display: none;
+    }
+    .nav-mobile-content{
+        display: block;
+    }
+}
