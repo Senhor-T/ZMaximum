@@ -3,7 +3,10 @@ let Schema = mongoose.Schema
 
 let userSchema = new Schema({
     _id: Schema.Types.ObjectId,
-    name:{
+    email:{
+        type: String
+    },
+    username:{
         type: String
     },
     password:{

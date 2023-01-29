@@ -3,6 +3,7 @@ let Schema = mongoose.Schema
 
 let postSchema = new Schema({
     _id: Schema.Types.ObjectId,
+    shortid:String,
     titulo:{
         type: String,
     },
@@ -12,6 +13,8 @@ let postSchema = new Schema({
     imagePost:{
         type: String
     },
+    genero:String,
+    genero:Array,
     createdAt:{
         type: Date,
         default: Date.now,
