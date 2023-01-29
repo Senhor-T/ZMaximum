@@ -3,7 +3,9 @@
     src: url(../../public/fonts/fontastique.ttf);
 }
 
-
+a{
+    text-decoration: none;
+}
 .container-menu{
     border: 1px solid yellow;
     width: 20%;
