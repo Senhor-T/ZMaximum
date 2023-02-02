@@ -8,12 +8,14 @@ import Button from 'react-bootstrap/Button';
 import './Home.css'
 
 import { NavLink, Link } from 'react-router-dom';
+import { useState,useEffect } from 'react';
 
 import { BsFillPlayFill } from 'react-icons/bs'
 
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import api from '../../api/api';
 
 const Home = () => {
   const settings = {
@@ -61,6 +63,31 @@ const Home = () => {
         }
       ]
   };
+
+  const [movies,setMovies] = useState([])
+  const [series,setSeries] = useState([])
+
+  useEffect(()=>{
+    const fetchData = async ()=>{
+      await api.get('/post/movies/all')
+      .then((response)=>{
+        setMovies(response.data)
+      })
+    }
+    fetchData()
+  },[])
+
+  useEffect(()=>{
+    const fetchData = async ()=>{
+      await api.get('/post/series/all')
+      .then((response)=>{
+        setSeries(response.data)
+      })
+    }
+    fetchData()
+  },[])
+
+
   return (
     <div>
       <br />
@@ -138,42 +165,9 @@ const Home = () => {
                   </NavLink>
                   </div>
                 </Card>
-              <Card className="div-poster text-white">
-                <div>
-                <NavLink to='/single'>
-                  <Card.Img src="https://cinewestside.com.br/img/filmes/f597.jpeg" alt="Card image" />
-                  <Card.ImgOverlay className='body-poster-card'>
-                  <br />
-                    <br />
-                    <Card.Title id='title'>Gato de Botas 2</Card.Title>                   
-                  </Card.ImgOverlay>
-                  </NavLink>
-                  </div>
-                </Card>
-                <Card className="div-poster text-white">
-                <div>
-                <NavLink to='/single'>
-                  <Card.Img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRthgBba12lF_hfubI1G57okF5tXlKOoDzbyKncEKQ39BdEc-pH" alt="Card image" />
-                  <Card.ImgOverlay className='body-poster-card'>
-                  <br />
-                    <br />
-                    <Card.Title id='title'>Top Gun: Maverick</Card.Title>                   
-                  </Card.ImgOverlay>
-                  </NavLink>
-                  </div>
-                </Card>
-                <Card className="div-poster text-white">
-                <div>
-                <NavLink to='/single'>
-                    <Card.Img src="https://cinewestside.com.br/img/filmes/f597.jpeg" alt="Card image" />
-                  <Card.ImgOverlay className='body-poster-card'>
-                    <br />
-                    <br />
-                    <Card.Title id='title'>Gato de Botas 2</Card.Title>                   
-                  </Card.ImgOverlay>
-                  </NavLink>
-                  </div>
-                </Card>
+              
+               
+                
               </Slider>
             </Col>
           </Row>
@@ -184,42 +178,22 @@ const Home = () => {
               <h2><b>Filmes</b></h2>
               <br />
               <Slider {...settingsO} className='slider-posts'>
+            {movies && movies.map((movies) =>(
+
+            
               <Card className="div-poster text-white">     
                 <div>
-                <NavLink to='/single'>
-                  <Card.Img src="https://cinewestside.com.br/img/filmes/f597.jpeg" alt="Card image" />
+                <NavLink to={`/${movies.shortid}`}>
+                  <Card.Img src={`https://www.themoviedb.org/t/p/w1280${movies.imagePost}`} alt="Card image" />
                   <Card.ImgOverlay className='body-poster-card'>
                   <br />
                     <br />
-                    <Card.Title id='title'>Gato de Botas 2</Card.Title>                   
+                    <Card.Title id='title'>{movies.titulo}</Card.Title>                   
                   </Card.ImgOverlay>
                   </NavLink>
                   </div>
                 </Card>
-                <Card className="div-poster text-white">
-                <div>
-                <NavLink to='/single'>
-                  <Card.Img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRthgBba12lF_hfubI1G57okF5tXlKOoDzbyKncEKQ39BdEc-pH" alt="Card image" />
-                  <Card.ImgOverlay className='body-poster-card'>
-                  <br />
-                    <br />
-                    <Card.Title id='title'>Top Gun: Maverick</Card.Title>                   
-                  </Card.ImgOverlay>
-                  </NavLink>
-                  </div>
-                </Card>
-                <Card className="div-poster text-white">
-                <div>
-                <NavLink to='/single'>
-                    <Card.Img src="https://cinewestside.com.br/img/filmes/f597.jpeg" alt="Card image" />
-                  <Card.ImgOverlay className='body-poster-card'>
-                    <br />
-                    <br />
-                    <Card.Title id='title'>Gato de Botas 2</Card.Title>                   
-                  </Card.ImgOverlay>
-                  </NavLink>
-                  </div>
-                </Card>
+                 ))} 
               </Slider>
             </Col>
           </Row>
@@ -230,44 +204,22 @@ const Home = () => {
               <h2><b>Séries</b></h2>
               <br />
               <Slider {...settingsO} className='slider-posts'>
-                
+            {series && series.map((serie)=>(
               <Card className="div-poster text-white">
                 <div>
-                <NavLink to='/single'>
-                  <Card.Img src="https://cinewestside.com.br/img/filmes/f597.jpeg" alt="Card image" />
+                <NavLink to={`/${serie.shortid}`}>
+                  <Card.Img src={`https://www.themoviedb.org/t/p/w1280${serie.imagePost}`} alt="Card image" />
                   <Card.ImgOverlay className='body-poster-card'>
                   <br />
                     <br />
-                    <Card.Title id='title'>Gato de Botas 2</Card.Title>                   
+                    <Card.Title id='title'>{serie.titulo}</Card.Title>                   
                   </Card.ImgOverlay>
                   </NavLink>
                   </div>
                 </Card>
+                ))}
                 
-                <Card className="div-poster text-white">
-                <div>
-                <NavLink to='/single'>
-                  <Card.Img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRthgBba12lF_hfubI1G57okF5tXlKOoDzbyKncEKQ39BdEc-pH" alt="Card image" />
-                  <Card.ImgOverlay className='body-poster-card'>
-                  <br />
-                    <br />
-                    <Card.Title id='title'>Top Gun: Maverick</Card.Title>                   
-                  </Card.ImgOverlay>
-                  </NavLink>
-                  </div>
-                </Card>
-                <Card className="div-poster text-white">
-                <div>
-                <NavLink to='/single'>
-                    <Card.Img src="https://cinewestside.com.br/img/filmes/f597.jpeg" alt="Card image" />
-                  <Card.ImgOverlay className='body-poster-card'>
-                    <br />
-                    <br />
-                    <Card.Title id='title'>Gato de Botas 2</Card.Title>                   
-                  </Card.ImgOverlay>
-                  </NavLink>
-                  </div>
-                </Card>
+                
               </Slider>
             </Col>
           </Row>

@@ -1,0 +1,11 @@
+.body-form{
+    width: 50%;
+}
+
+#create-form form{
+    width: 60%;
+}
+
+#form-filme button{
+    display: inline-block;
+}

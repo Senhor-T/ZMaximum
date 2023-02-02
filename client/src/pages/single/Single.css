@@ -20,6 +20,7 @@
     border-radius: 10px;
 }
 
+
 .col-info{
     margin-left: 40px;
     display: none;
@@ -38,7 +39,7 @@
 }
 
 .green{background: #b8c765;}
-.yellow{background: #ede487;}
+.yellow{background: #dfcd0c;}
 .red{background: #dd5c5c;}
 .blue{background: #5c90dd;}
 
