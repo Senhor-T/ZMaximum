@@ -10,6 +10,7 @@ const getUserByToken = async (token) =>{
     const decoded = jwt.verify(token,'d41d8cd98f00b204e9800998ecf8427ed41d8cd98f00b204e9800998ecf8427e')
 
     const userId = decoded.id
+    const admin = decoded.admin
     const user = await Users.findOne({_id: userId})
 
     return user

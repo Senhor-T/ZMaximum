@@ -13,6 +13,30 @@ let postSchema = new Schema({
     imagePost:{
         type: String
     },
+    backgroundImage:{
+        type: String
+    },
+    categoria:{
+        type:String
+    },
+    idImdb:{
+        type:String
+    },
+    nota:{
+        type: Number
+    },
+    data:{
+        type:String
+    },
+    torrent:{
+        type:String
+    },
+    slug:{
+        type:String
+    },
+    views:{
+        type: Number
+    },
     genero:String,
     genero:Array,
     createdAt:{

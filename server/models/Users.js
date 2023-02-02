@@ -12,6 +12,9 @@ let userSchema = new Schema({
     password:{
         type: String
     },
+    admin:{
+        type:Boolean
+    },
     createdAt: {
         type: Date,
         default: Date.now,

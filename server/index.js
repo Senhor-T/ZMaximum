@@ -10,9 +10,10 @@ const app = express()
 const port = 8080
 
 const UserRoutes = require('./routes/UserRoutes')
+const PostRoutes = require('./routes/PostRoutes')
 
 app.use(express.json())
-app.use(cors())
+app.use(cors({ credentials: true, origin: 'http://localhost:3000' }))
 app.use(express.static('public'))
 
 mongoose.connect('mongodb://localhost:27017/ZMaximum').then(()=>{
@@ -22,7 +23,7 @@ mongoose.connect('mongodb://localhost:27017/ZMaximum').then(()=>{
 })
 
 app.use('/user',UserRoutes)
-
+app.use('/post',PostRoutes)
 
 app.listen(port,()=>{
     console.log(`Conectado na porta ${port}`)
