@@ -2,6 +2,7 @@ const Users = require('../models/Users')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const ObjectId = require('mongoose').Types.ObjectId
+const shortid = require('shortid')
 
 const createUserToken = require('../helpers/create-user-token')
 const getToken = require('../helpers/get-token')
@@ -123,5 +124,78 @@ module.exports = class UserController{
         const user = await Users.findById(id).select("-password")
 
         res.status(200).json({user})
+    }
+
+    static async addFavoriteMovie(req,res){
+        const id = req.params.id
+
+        const token = getToken(req)
+        const user = await getUserByToken(token)
+        const document =     
+                {
+                shortid: shortid.generate(),
+                id_fav:req.body.id_fav,
+                imagePost: req.body.imagePost,
+                titulo:req.body.titulo
+                }
+        
+        const checkFav = await Users.findOne({_id:user.id,'favoritos.id_fav':document.id_fav})
+
+        if(checkFav){
+            res.json({message:'Esse conteudo existe'})
+            return
+        }
+
+      
+            await Users.findByIdAndUpdate({_id:user.id},{$push:{favoritos:document}})
+            res.status(200).json({message:'Criado com Sucesso'})
+        
+
+       
+    }
+
+    static async removeToFavorite(req,res){
+        // const shortid = req.params.shortid
+        const id_fav = req.params.id_fav
+        const token = getToken(req)
+        const user = await getUserByToken(token)
+
+        await Users.findByIdAndUpdate({_id:user.id},
+            {$pull:{
+                favoritos:{id_fav:id_fav}
+            }})
+
+            res.status(200).json({message:'Excluido com sucesso'})
+    }
+
+    static async getFavoritesUser(req,res){
+        const id_fav = req.params.id_fav
+
+        // {'favoritos.id_fav':id_fav}
+
+        const token = getToken(req)
+        const user = await getUserByToken(token)
+
+       const userFav = await Users.findOne({_id:user.id,'favoritos.id_fav':id_fav})
+
+       
+
+        if(userFav){
+             res.json({true:true,userFav}) 
+             return
+        }else{
+             res.json(false)
+             return
+        }
+    }
+
+    static async getFavId(req,res){
+        const fav = await Users.findById({})
+    }
+
+    static async getAllusers(req,res){
+        const user = await Users.find({}).exec()
+
+        res.json(user)
     }
 }

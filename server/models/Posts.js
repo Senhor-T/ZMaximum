@@ -5,16 +5,16 @@ let postSchema = new Schema({
     _id: Schema.Types.ObjectId,
     shortid:String,
     titulo:{
-        type: String,
+        type:String,
     },
     descricao:{
-        type: String,
+        type:String,
     },
     imagePost:{
-        type: String
+        type:String
     },
     backgroundImage:{
-        type: String
+        type:String
     },
     categoria:{
         type:String
@@ -35,16 +35,19 @@ let postSchema = new Schema({
         type:String
     },
     views:{
-        type: Number
+        type:Number
+    },
+    header:{
+        type:String
     },
     genero:String,
     genero:Array,
     createdAt:{
-        type: Date,
+        type:Date,
         default: Date.now,
       },
     updatedAt:{
-        type: Date,
+        type:Date,
         default: Date.now,
       },
 },{collection:'Posts'})

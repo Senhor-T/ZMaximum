@@ -15,6 +15,9 @@ let userSchema = new Schema({
     admin:{
         type:Boolean
     },
+    favoritos:{
+        type: Array
+    },
     createdAt: {
         type: Date,
         default: Date.now,
