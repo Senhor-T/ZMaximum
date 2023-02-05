@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -11,33 +11,119 @@ import { useState, useEffect } from 'react'
 
 import { BsFillPlayFill } from 'react-icons/bs'
 import { AiFillHeart } from 'react-icons/ai'
+import {FaMinus} from 'react-icons/fa'
 
 import './Single.css'
 import api from '../../api/api';
 
 import Moment from 'moment'
 
+import { Context } from '../../context/UserContext';
+
 const Single = () => {
     const { shortid } = useParams()
 
     const [post, setPost] = useState([])
     const [genre, setGenero] = useState([])
-    
+    const [fav,setFav] = useState(false)
 
+    const [titulo,setTitulo] = useState('')
+    const [imagePost,setImagePost] = useState('')
+    const [id_fav,setIdFav] = useState('')
+    const [Sshortid,setSShortid] = useState('')
+
+    console.log(Sshortid)
+
+    const [token] = useState(localStorage.getItem('token') || '')
+    const { authenticated } = useContext(Context)
+
+    const [user, setUser] = useState({})
 
     useEffect(() => {
         const fetchData = async () => {
-            await api.get(`/post/${shortid}`)
+            await api.get('/user/checkuser', {
+                headers: {
+                    Authorization: `Bearer ${JSON.parse(token)}`,
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Credentials": true
+                },
+            })
                 .then((response) => {
-                    setPost(response.data)
-                    setGenero(response.data.genero)
-
+                    setUser(response.data)
                 })
+        }
+        fetchData()
+    }, [token])
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try{
+           const post =  await api.get(`/post/${shortid}`)
                 
-                  
+                    setPost(post.data)
+                    setGenero(post.data.genero)
+
+                    setTitulo(post.data.titulo)
+                    setImagePost(post.data.imagePost)
+                    setIdFav(post.data.shortid)
+                    
+            if(token){
+                const favPost = await api.get(`/user/get-favorites/${post.data.shortid}`)
+            .then((response)=>{
+                setFav(response.data)
+            }) 
+            }
+            }catch(error){console.log(error)}
         }
         fetchData()
     }, [])
+
+
+    async function addFavorite(movie){
+        const data = await api
+    .patch('/user/add-favorite',movie,{
+        headers: {
+            Authorization: `Bearer ${JSON.parse(token)}`,
+          },
+    })
+    .then(async (response) => {
+        console.log(response.data)
+      })
+    }
+
+    async function removeFavorite(movie){
+        const data = await api
+    .patch(`/user/remove-favorite/${shortid}`,{
+        headers: {
+            Authorization: `Bearer ${JSON.parse(token)}`,
+          },
+    })
+    .then(async (response) => {
+        console.log(response.data)
+      })
+    }
+
+
+    const handleRemove = async (e) =>{
+        e.preventDefault()
+        const movie = {
+            shortid
+        }
+        removeFavorite(movie)
+        setFav(false)
+    }
+   
+    const handleAdd = async (e) =>{
+        e.preventDefault()
+        const movie = {
+            titulo,
+            imagePost,
+            id_fav,
+        }
+        addFavorite(movie)
+        setFav(true)
+    }
+
 
     function voteNumber(x) {
         return Number.parseFloat(x).toFixed(1);
@@ -85,7 +171,23 @@ const Single = () => {
                         <div class="grade">
                             <br />
                             <br />
-                            <Button variant='light'><AiFillHeart /> <b>Favoritos</b></Button>
+                            {!authenticated ?
+                             (<></>)
+                            :(<>
+                            
+                            {fav == false ?
+                                (<><><form onSubmit={handleAdd}>
+                                <Button type='submit' variant='light'><AiFillHeart /> <b>Favoritos</b></Button>
+                                </form></></>):
+                                (<>
+                                <form onSubmit={handleRemove}>
+                                <Button type='submit' variant='light'><FaMinus /> <b>Remover</b></Button>
+                                </form>
+                                </>)}
+                            
+                            </>)}
+                            
+                            
                             {post.nota <=3 ? (
                                 <div className={`grade-circle red`}>
                                    <div className="grade-percentage">

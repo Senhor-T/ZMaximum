@@ -8,11 +8,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import api from '../../api/api';
 
+import useFlashMessage from '../../hooks/UseFlashMessage';
 
 const CreateContent = () => {
 
     const [token] = useState(localStorage.getItem('token') || '')
-
+    const {setFlashMessage} = useFlashMessage()
 
     const [id, setId] = useState('')
     const [movie, setMovie] = useState({})
@@ -52,18 +53,32 @@ const CreateContent = () => {
 
 
     async function createMovie(post) {
+        let msgType = 'success'
         const data = await api.post(`/post/create`, post, {
             headers: {
                 Authorization: `Bearer ${JSON.parse(token)}`,
             },
         })
             .then((response) => {
+            setMovie('')
+            setTitulo('')
+            setDescricao('')
+            setImagePost('')
+            setGenero('')
+            setIdImdb('')
+            setBackgroundImage('')
+            setNota('')
+            setData('')
                 return response.data
+                
             })
             .catch((error) => {
                 console.log(error)
+                msgType = 'error'
                 return error.response.data
             })
+            setFlashMessage(data.message, msgType)
+            
     }
 
     const handleCreate = async (e) => {
@@ -80,6 +95,7 @@ const CreateContent = () => {
             categoria:'filme'
         }
         createMovie(post)
+      
     }
 
 

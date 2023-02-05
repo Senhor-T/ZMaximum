@@ -40,10 +40,7 @@ const Menu = () => {
                         </Nav.Link>
                         <Nav.Link style={({ isActive }) => isActive ? { borderLeft: '3px solid orange' } : {}} as={NavLink} to="/series">
                             <RiMovie2Line /> <h6>Séries</h6>
-                        </Nav.Link>
-                        <Nav.Link style={({ isActive }) => isActive ? { borderLeft: '3px solid orange' } : {}} as={NavLink} to="/animes">
-                            <AiOutlinePlayCircle /> <h6>Animes</h6>
-                        </Nav.Link>
+                        </Nav.Link>                        
                         {authenticated ? (
                             <Nav.Link style={({ isActive }) => isActive ? { borderLeft: '3px solid orange ' } : {}} as={NavLink} to="/profile">
                                 <CgProfile /> <h6>Perfil</h6>
@@ -86,9 +83,6 @@ const Menu = () => {
                     </Nav.Link>
                     <Nav.Link style={({ isActive }) => isActive ? { borderBottom: '3px solid orange ' } : {}} as={NavLink} to="/series">
                         <RiMovie2Line />
-                    </Nav.Link>
-                    <Nav.Link style={({ isActive }) => isActive ? { borderBottom: '3px solid orange ' } : {}} as={NavLink} to="/animes">
-                        <AiOutlinePlayCircle />
                     </Nav.Link>
                     <Nav.Link style={({ isActive }) => isActive ? { borderBottom: '3px solid orange ' } : {}} as={NavLink} to="/profile">
                         <CgProfile />

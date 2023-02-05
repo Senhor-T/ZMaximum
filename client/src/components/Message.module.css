@@ -1,0 +1,45 @@
+.message{
+    width: 150px;
+    padding: 1em;
+    border: 1px solid #000;
+    margin: 1.2em auto 0;
+    text-align: center;
+    border-radius: 5px;
+    position: sticky;
+    margin-right: 73px;
+    bottom: 10px;
+    z-index: 999;
+    transition: .5s;
+    margin-top: 6%;
+}
+
+.message span{
+    font-size: 35px;
+}
+
+.message span2{
+    font-size: 35px;
+}
+
+
+.success{
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #C3E6CB;
+}
+
+.success span{
+    display: none;
+}
+
+.error span2{
+    display: none;
+}
+
+.error{
+    color: #721c34;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+

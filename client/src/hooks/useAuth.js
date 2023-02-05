@@ -2,9 +2,11 @@ import api from '../api/api'
 
 import {useState,useEffect} from 'react'
 import {Navigate, useNavigate} from 'react-router-dom'
+import useFlashMessage from './UseFlashMessage'
 
 export default function useAuht(){
     const [authenticated, setAuthenticated] = useState(false)
+    const {setFlashMessage} = useFlashMessage()
     const navigate = useNavigate()
 
     useEffect(()=>{
@@ -32,6 +34,7 @@ export default function useAuht(){
             msgText = error.response.data.message
             msgType = 'error'
         }
+        setFlashMessage(msgText,msgType)
     }
 
     async function login(user){
@@ -51,7 +54,7 @@ export default function useAuht(){
             msgText = error.response.data.message
             msgType = 'error'
         }
-
+        setFlashMessage(msgText,msgType)
     }
 
     async function authUser(data){
@@ -68,8 +71,7 @@ export default function useAuht(){
         localStorage.removeItem('token')
         api.defaults.headers.Authoruzation = undefined
         navigate('/')
-
-
+        setFlashMessage(msgText,msgType)
     }
 
     return {authenticated,register,logout,login}

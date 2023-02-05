@@ -66,6 +66,8 @@ const Home = () => {
 
   const [movies,setMovies] = useState([])
   const [series,setSeries] = useState([])
+  const [popular,setPopular] = useState([])
+  const [header,setHeader] = useState([])
 
   useEffect(()=>{
     const fetchData = async ()=>{
@@ -87,6 +89,30 @@ const Home = () => {
     fetchData()
   },[])
 
+  useEffect(()=>{
+    const fetchData = async ()=>{
+      await api.get('/post/popular/all')
+      .then((response)=>{
+        setPopular(response.data)
+      })
+    }
+    fetchData()
+  },[])
+
+  useEffect(()=>{
+    const fetchData = async ()=>{
+      await api.get('/post/header/home')
+      .then((response)=>{
+        setHeader(response.data)
+      })
+    }
+    fetchData()
+  },[])
+
+  function descricaoS(x){
+    return x.length
+  }
+
 
   return (
     <div>
@@ -99,46 +125,29 @@ const Home = () => {
             <div className='div-img'>
               <div className="slider">
                 <Slider {...settings}>
+                  {header && header.map((header)=>(
                   <div className='div-card'>
                     <Card className="card-body text-white">
-                      <Card.Img src="https://cinemaemserie.com.br/wp-content/uploads/2022/05/Top-Gun-Maverick-Dolby-Header.jpg" alt="Card image" />
+                      <Card.Img src={header.backgroundImage} alt="Card image" />
                       <Card.ImgOverlay className='bg-card'>
-                        <Card.Title>Card title</Card.Title>
+                        <Card.Title>{header.titulo}</Card.Title>
+                        <hr />
                         <Card.Text >
-                          This is a wider card with supporting text below as a natural lead-in
-                          to additional content. This content is a little bit longer.
+                          {header.descricao.substring(0,260)}
+                          {descricaoS(header.descricao) > 258 ? ('...'):(<></>)}
                         </Card.Text>
                         <br />
-                        <Card.Text><Button variant='light'><BsFillPlayFill /> <b>Assistir</b></Button></Card.Text>
+                        <Card.Text><Button variant='light'><BsFillPlayFill /><NavLink to={`/${header.shortid}`}><b>Assistir</b></NavLink></Button></Card.Text>
                       </Card.ImgOverlay>
                       <Card.Body className='mobile-body-card'>
-                        <Card.Title>Top Gun: Maverick</Card.Title>
+                        <Card.Title>{header.titulo}</Card.Title>
                         <Card.Text>
-                          <Button variant='light'><BsFillPlayFill /> <b>Assistir</b></Button>
+                          <Button variant='light'><BsFillPlayFill /><NavLink to={`/${header.shortid}`}><b>Assistir</b></NavLink></Button>
                         </Card.Text>
                       </Card.Body>
                     </Card>
                   </div>
-                  <div className='div-card'>
-                    <Card className=" card-body text-white">
-                      <Card.Img src="https://midias.correiobraziliense.com.br/_midias/jpg/2022/11/17/gato_de_botas_2_1-26868535.jpg" alt="Card image" />
-                      <Card.ImgOverlay className='bg-card'>
-                        <Card.Title>Card title</Card.Title>
-                        <Card.Text >
-                          This is a wider card with supporting text below as a natural lead-in
-                          to additional content. This content is a little bit longer.
-                        </Card.Text>
-                        <Card.Text>Last updated 3 mins ago</Card.Text>
-                      </Card.ImgOverlay>
-
-                      <Card.Body className='mobile-body-card'>
-                        <Card.Title>Gato de Botas 2</Card.Title>
-                        <Card.Text>
-                          <Button variant='light'><BsFillPlayFill /> <b>Assistir</b></Button>
-                        </Card.Text>
-                      </Card.Body>
-                    </Card>
-                  </div>
+                  ))}
                 </Slider>
               </div>
             </div>
@@ -153,19 +162,20 @@ const Home = () => {
               <h2><b>Populares</b></h2>
               <br />
               <Slider {...settingsO} className='slider-posts'>
-              <Card className="div-poster text-white">
+              {popular && popular.map((popular)=>(
+              <Card key={popular._id} className="div-poster text-white">
                 <div>
-                <NavLink to='/single'>
-                  <Card.Img src="https://cinewestside.com.br/img/filmes/f597.jpeg" alt="Card image" />
+                <NavLink to={`/${popular.shortid}`}>
+                  <Card.Img src={`https://www.themoviedb.org/t/p/w1280${popular.imagePost}`} alt="Card image" />
                   <Card.ImgOverlay className='body-poster-card'>
                   <br />
                     <br />
-                    <Card.Title id='title'>Gato de Botas 2</Card.Title>                   
+                    <Card.Title id='title'>{popular.titulo}</Card.Title>                   
                   </Card.ImgOverlay>
                   </NavLink>
                   </div>
                 </Card>
-              
+              ))}
                
                 
               </Slider>

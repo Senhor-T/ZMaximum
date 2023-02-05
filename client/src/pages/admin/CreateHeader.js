@@ -8,62 +8,47 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import api from '../../api/api';
 
-const CreateSerie = () => {
-    
+
+const CreateHeader = () => {
+
     const [token] = useState(localStorage.getItem('token') || '')
 
+
     const [id, setId] = useState('')
-    const [movie, setMovie] = useState({})
     const [titulo, setTitulo] = useState('')
     const [descricao, setDescricao] = useState('')
-    const [imagePost, setImagePost] = useState('')
-    const [idImdb, setIdImdb] = useState('')
     const [backgroundImage,setBackgroundImage] = useState('')
-    const [nota,setNota] = useState('')
-    const [data,setData] = useState('')
-    const [genero, setGenero] = useState({})
+    const [shortid,setShortid] = useState('')
+
+
+
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        const idS = {
+        const shortidS = {
             id
         }
-        await axios.get(`https://api.themoviedb.org/3/tv/${idS.id}/external_ids?api_key=d795b4019ef0cbbc7042c3f7a07debcb&language=pt-BR`)
-        .then((response)=>{
-            setIdImdb(response.data.imdb_id)
-        })
-        await axios.get(`https://api.themoviedb.org/3/tv/${idS.id}?api_key=d795b4019ef0cbbc7042c3f7a07debcb&language=pt-BR`)
+        console.log(shortidS.id)
+        await api.get(`/post/${shortidS.id}`)
             .then((response) => {
-                setMovie(response.data)
-                setTitulo(response.data.name)
-                setDescricao(response.data.overview)
-                setImagePost(response.data.poster_path)
-                setGenero(response.data.genres)
-                setBackgroundImage(response.data.backdrop_path)
-                setNota(response.data.vote_average)
-                setData(response.data.first_air_date)
+                setTitulo(response.data.titulo)
+                setDescricao(response.data.descricao)
+                setShortid(response.data.shortid)
             })
             .catch((error) => {
                 console.log(error)
             })
     }
 
+
+
     async function createMovie(post) {
-        const data = await api.post(`/post/create`, post, {
+        const data = await api.post(`/post/header/create`, post, {
             headers: {
                 Authorization: `Bearer ${JSON.parse(token)}`,
             },
         })
             .then((response) => {
-            setMovie('')
-            setTitulo('')
-            setDescricao('')
-            setImagePost('')
-            setGenero('')
-            setIdImdb('')
-            setBackgroundImage('')
-            setNota('')
-            setData('')
                 return response.data
             })
             .catch((error) => {
@@ -77,19 +62,17 @@ const CreateSerie = () => {
         const post = {
             titulo,
             descricao,
-            imagePost,
-            genero,
-            idImdb,
+            shortid,
             backgroundImage,
-            nota,
-            data,
-            categoria:'serie'
+            header:'home'
         }
         createMovie(post)
     }
-  return (
-    <div>
-          <br />
+
+
+    return (
+        <div>
+            <br />
             <br />
             <br />
             <Container className='container-home' id='create-form'>
@@ -97,7 +80,7 @@ const CreateSerie = () => {
                     <Col>
                         <Form onSubmit={handleSubmit} id='form-filme'>
                         <Form.Group className="mb-3">
-                            <Form.Control type='text' placeholder='Id Serie' value={id} name={id} onChange={(e) => setId(e.target.value)} />
+                            <Form.Control type='text' placeholder='Id Filme' value={id} name={id} onChange={(e) => setId(e.target.value)} />
                             <br />
                             <Button variant='danger' type='submit' value='enviar'>Pesquisar</Button>
                             </Form.Group>
@@ -115,40 +98,28 @@ const CreateSerie = () => {
                         <Form.Control type='text' name='descricao' placeholder='sinopse' value={descricao}
                             onChange={(e) => setDescricao(e.target.value)} />
                     </Form.Group>
-                    <Form.Group className="mb-3">
-                            <Form.Control type='text' name='idImdb' placeholder='imdb' value={idImdb}
-                            onChange={(e) => setIdImdb(e.target.value)}
-                            />
-                    </Form.Group>
-                    <Form.Group className="mb-3">
-                        <Form.Control type='text' name='nota' placeholder='Nota' 
-                        value={nota}
-                            onChange={(e) => setNota(e.target.value)}
-                            />
-                    </Form.Group>
+                   
                     <Form.Group className="mb-3">
                         <Form.Control type='text' name='backgroundImage' placeholder='backgroundImage'
-                         value={backgroundImage}
+                         
                             onChange={(e) => setBackgroundImage(e.target.value)}
                             />
                     </Form.Group>
                     <Form.Group className="mb-3">
-                        <Form.Control type='text' name='data' placeholder='data'
-                         value={data}
-                            onChange={(e) => setData(e.target.value)}
+                        <Form.Control type='text' name='shortid' placeholder='shortid'
+                         value={shortid}
+                            onChange={(e) => setShortid(e.target.value)}
                             />
                     </Form.Group>
-                    <Form.Group className="mb-3">
-                        <Form.Control type='text' name='imagePost' placeholder='link da imagem'
-                            value={imagePost}
-                            onChange={(e) => setImagePost(e.target.value)} />
-                    </Form.Group>
+                   
                     <Button variant='danger' type='submit' value='enviar'>Criar</Button>
                     </Form>
+
+
                 </Row>
             </Container>
-    </div>
-  )
+        </div>
+    )
 }
 
-export default CreateSerie
+export default CreateHeader
