@@ -7,7 +7,7 @@ import Form from 'react-bootstrap/Form';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import api from '../../api/api';
-
+import useFlashMessage from '../../hooks/UseFlashMessage';
 
 const CreateHeader = () => {
 
@@ -15,20 +15,42 @@ const CreateHeader = () => {
 
 
     const [id, setId] = useState('')
+    const [idH,setIdH] = useState('')
     const [titulo, setTitulo] = useState('')
     const [descricao, setDescricao] = useState('')
     const [backgroundImage,setBackgroundImage] = useState('')
     const [shortid,setShortid] = useState('')
 
 
+    const {setFlashMessage} = useFlashMessage()
 
+    const handleRemove = async (e)=>{
+        e.preventDefault()
+        let msgType = 'success'
+        const idS = {
+            idH
+        }
+        const data = await api.delete(`/post/header/delete/${idS.idH}`,{
+        headers: {
+            Authorization: `Bearer ${JSON.parse(token)}`,
+        },})
+        .then((response)=>{
+            setIdH('')
+            return response.data
+        })
+        .catch((error)=>{
+            console.log(error)
+            msgType = 'error'
+            return error.response.data
+        })
+        setFlashMessage(data.message, msgType)
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault()
         const shortidS = {
             id
         }
-        console.log(shortidS.id)
         await api.get(`/post/${shortidS.id}`)
             .then((response) => {
                 setTitulo(response.data.titulo)
@@ -116,7 +138,21 @@ const CreateHeader = () => {
                     </Form>
 
 
+        <hr />
                 </Row>
+                <Row>
+                <Form onSubmit={handleRemove}>
+                        <Form.Group className="mb-3">
+                            <Form.Control type='text' placeholder='Id Filme' value={idH} name={idH} onChange={(e) => setIdH(e.target.value)} />
+                            <br />
+                            <Button variant='danger' type='submit' value='enviar'>Excluir</Button>
+                            </Form.Group>                     
+                        </Form>
+                </Row>
+                <br />
+                <br />
+                <br />
+                <br />
             </Container>
         </div>
     )

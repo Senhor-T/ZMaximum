@@ -94,8 +94,32 @@ module.exports = class PostController{
         }
     }
 
-    // Get All
+    // Delete Post
+    static async deletePost(req,res){
+        const shortid = req.params.shortid
 
+        const posts = await Posts.findOne({shortid:shortid})
+
+
+        if(!posts){
+            res.status(404).json({message:'Post Não Encontrado'})
+            return
+        }
+
+        const token = getToken(req)
+        const user = await getUserByToken(token)
+
+        if(user.admin == true){
+            await Posts.findByIdAndRemove(posts._id)
+            res.status(200).json({message:'Excluido com sucesso'})
+        }else{
+            res.status(200).json({message:'Você não tem autotização'})
+            return
+        }
+
+    }
+
+    // Get All
     static async getAll(req,res){
         const posts = await Posts.find().sort('-createdAt')
         res.status(200).json(posts)
@@ -162,8 +186,32 @@ module.exports = class PostController{
 
     // Get Header Home
     static async getHeaderHome(req,res){
-        const header = await Header.find({'header':'home'}).exec()
+        const header = await Header.find({'header':'home'}).sort({'_id':-1})
         return res.status(200).json(header)
+    }
+
+    // Delete Header
+    static async deleteHeader(req,res){
+        const shortid = req.params.shortid
+
+        const header = await Header.findOne({shortid:shortid})
+
+
+        if(!header){
+            res.status(404).json({message:'Post Não Encontrado'})
+            return
+        }
+
+        const token = getToken(req)
+        const user = await getUserByToken(token)
+
+        if(user.admin == true){
+            await Header.findByIdAndRemove(header._id)
+            res.status(200).json({message:'Excluido com sucesso'})
+        }else{
+            res.status(200).json({message:'Você não tem autotização'})
+            return
+        }
     }
 
 

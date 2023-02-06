@@ -3,10 +3,9 @@ const Posts = require('../models/Posts')
 const PostController = require('../controllers/PostController')
 const verifyToken = require('../helpers/verify-token')
 
-const getToken = require('../helpers/get-token')
-const getUserByToken = require('../helpers/get-user-by-token')
 
 router.post('/create',verifyToken,PostController.create)
+router.delete('/delete/:shortid',verifyToken,PostController.deletePost)
 
 // Get post slug and shortid
 router.get('/:shortid',async(req,res)=>{
@@ -14,6 +13,12 @@ router.get('/:shortid',async(req,res)=>{
     return res.status(200).json(posts)
 })
 
+// Get Search
+router.get('/get/search',async(req,res)=>{
+    const { q } = req.query;
+    const posts = await Posts.find({ titulo: new RegExp(q, "i") }).exec()
+    res.json(posts)
+})
 
 // Get All
 router.get('/recentes/post',PostController.getAll)
@@ -33,10 +38,11 @@ router.get('/all/:shortid',PostController.searchByShortid)
 // Create Header
 router.post('/header/create',verifyToken,PostController.createHeaderHome)
 
-
-
 // Get Header Home
 router.get('/header/home',PostController.getHeaderHome)
+
+// Delete Header
+router.delete('/header/delete/:shortid',verifyToken,PostController.deleteHeader)
 
 
 // Genres List Movies

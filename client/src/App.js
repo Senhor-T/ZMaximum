@@ -13,6 +13,8 @@ import CreateContent from './pages/admin/CreateContent';
 import CreateSerie from './pages/admin/CreateSerie';
 import CreateHeader from './pages/admin/CreateHeader';
 import Message from './components/Message';
+import DeletePost from './pages/admin/DeletePost';
+import Search from './pages/search/Search';
 
 
 function App() {
@@ -26,6 +28,7 @@ function App() {
           <Route path='/' element={<Home />} />
           <Route path='/filmes' element={<Filmes />} />
           <Route path='/series' element={<Series />} />
+          <Route path='/search' element={<Search />} />
           {/* <Route path='/single' element={<Single />} /> */}
           <Route path='/:shortid' element={<Single />} />
           <Route path='/login' element={<Login />} />
@@ -33,6 +36,7 @@ function App() {
           <Route path='/create/movies' element={<CreateContent />} />
           <Route path='/create/series' element={<CreateSerie />} />
           <Route path='/create/header' element={<CreateHeader />} />
+          <Route path='/delete' element={<DeletePost />} />
 
         </Routes>
         <Message />

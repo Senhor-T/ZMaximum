@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext , useState} from 'react'
 import Nav from 'react-bootstrap/Nav';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -10,10 +10,9 @@ import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Menu.css'
 
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 import { AiOutlineHome } from 'react-icons/ai'
-import { AiOutlinePlayCircle } from 'react-icons/ai'
 import { BsFilm } from 'react-icons/bs'
 import { RiMovie2Line } from 'react-icons/ri'
 import { BsSearch } from 'react-icons/bs'
@@ -23,6 +22,16 @@ import { Context } from '../context/UserContext';
 import api from '../api/api';
 const Menu = () => {
     const { authenticated, logout } = useContext(Context)
+
+    const navigate = useNavigate()
+    const [query, setQuery] = useState("")
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        if (query) {
+            return navigate(`/search?q=${query}`);
+        }
+    }
     return (
         <div>
 
@@ -40,7 +49,7 @@ const Menu = () => {
                         </Nav.Link>
                         <Nav.Link style={({ isActive }) => isActive ? { borderLeft: '3px solid orange' } : {}} as={NavLink} to="/series">
                             <RiMovie2Line /> <h6>Séries</h6>
-                        </Nav.Link>                        
+                        </Nav.Link>
                         {authenticated ? (
                             <Nav.Link style={({ isActive }) => isActive ? { borderLeft: '3px solid orange ' } : {}} as={NavLink} to="/profile">
                                 <CgProfile /> <h6>Perfil</h6>
@@ -56,8 +65,8 @@ const Menu = () => {
                     <Navbar.Brand>
                         <NavLink to='/'><h3>zMaximum</h3></NavLink>
                     </Navbar.Brand>
-                    <Form className="d-flex" >
-                        <Button variant="outline-light" type="submit">
+                    <Form className="d-flex" onSubmit={handleSubmit}>
+                        <Button variant="outline-light" type="submit" >
                             <BsSearch />
                         </Button>
                         <Form.Control
@@ -65,7 +74,7 @@ const Menu = () => {
                             placeholder="Pesquise"
                             className="me-2"
                             aria-label="Search"
-
+                            onChange={(e)=>setQuery(e.target.value)}
                         />
 
 

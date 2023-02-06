@@ -3,6 +3,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Profile.css'
 
@@ -19,7 +20,7 @@ const Profile = () => {
     const [movie,setMovie] = useState([])
 
     const [token] = useState(localStorage.getItem('token') || '')
-    const { authenticated } = useContext(Context)
+    const { authenticated,logout } = useContext(Context)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -58,11 +59,20 @@ const Profile = () => {
                                         <img src='https://cdn.dribbble.com/users/6142/screenshots/5679189/media/052967c305a8f96a4b40b79ce5e61b0d.png' alt='profile photo' />
                                     </div>
                                     <h1>{user.username}</h1>
+                                    <br />
+                                    <div id='dropdown'>
+                                    <Button onClick={logout}>Sair</Button>
+                                    </div>
                                     {user.admin === true ? (
                                         <div>
                                             <li>
                                                 <NavLink to='/create/movies'>Criar Filmes</NavLink>
-                                                <NavLink to='/create/series'>Criar Series</NavLink>
+                                            </li>
+                                            <li>
+                                            <NavLink to='/create/series'>Criar Series</NavLink>
+                                            </li>
+                                            <li>
+                                            <NavLink to='/create/header'>Criar Destaque </NavLink>
                                             </li>
                                         </div>
                                     ) : (<></>)}
